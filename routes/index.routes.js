@@ -37,7 +37,9 @@ router.get("/pokemon", (req, res, next) => {
     console.log(req.query)
 
     const { pokeName } = req.query
-    
+    if (pokeName === undefined) {
+      res.render("pokemon/poke-search.hbs")
+    }
     Pokemon.findOne({name: pokeName})
     .then((response) => {
       res.render("pokemon/poke-search.hbs", {
