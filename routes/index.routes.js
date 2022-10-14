@@ -31,7 +31,40 @@ router.get("/pokemon", (req, res, next) => {
   .catch((err) => {
     next(err)
   })
+
+  router.get("/pokemon/search", (req, res, next) => {
+
+    console.log(req.query)
+
+    const { pokeName } = req.query
+    
+    Pokemon.findOne({name: pokeName})
+    .then((response) => {
+      res.render("pokemon/poke-search.hbs", {
+        details: response
+      })
+    })
+    .catch((err) => {
+      next(err)
+    })
+
+  })
   
+
+  router.get("/pokemon/:pokeId", (req, res, next) => {
+    const { pokeId } = req.params
+
+    Pokemon.findById({"_id": pokeId})
+    .then((response) => {
+      console.log(response)
+      res.render("pokemon/pokemon-details.hbs", {
+        details: response
+      })
+    })
+    .catch((err) => {
+      next(err)
+    })
+  })
 
 })
 // ruta para renderizar los detalles de un pokemon
